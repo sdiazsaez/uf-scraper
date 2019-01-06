@@ -11,5 +11,5 @@ abstract class Scraper {
 
     abstract public function getScrapeUrl($date): string;
 
-    abstract public function getScrapedValue(ScraperWrapper $wrapper): string;
+    abstract public function getScrapedValue(ScraperWrapper $wrapper): ?string;
 }

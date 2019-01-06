@@ -21,7 +21,7 @@ class ImpuestosInternosScraper extends Scraper {
         return 'http://www.sii.cl/valores_y_fechas/uf/uf'.$year.'.htm';
     }
 
-    public function getScrapedValue(ScraperWrapper $wrapper): string {
+    public function getScrapedValue(ScraperWrapper $wrapper): ?string {
         $scrapedValue = '';
         $day = $this->getDayNumber();
         $crawler = $wrapper->getContent();

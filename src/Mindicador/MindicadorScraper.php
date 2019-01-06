@@ -17,7 +17,7 @@ class MindicadorScraper extends Scraper {
         return 'https://mindicador.cl/api/uf/' . $date;
     }
 
-    public function getScrapedValue(ScraperWrapper $wrapper): string {
+    public function getScrapedValue(ScraperWrapper $wrapper): ?string {
         $response = json_decode($wrapper->getContent());
         return $response->serie[0]->valor;
     }

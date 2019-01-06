@@ -15,4 +15,11 @@ class SourceTest extends TestCase {
 
         $this->assertTrue(($isFloat && $decimalsLenght === 2));
     }
+
+    public function testFutureDate() {
+        $date = date('Y-m-d', strtotime('+5 years'));
+        $uf = new UnidadFomento();
+        $value = $uf->getUnidadFomento($date);
+        dd($value);
+    }
 }

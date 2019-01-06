@@ -44,12 +44,17 @@ class UnidadFomento {
             $request = $this->client->request('GET', $scraper->getScrapeUrl($date));
             $scraperWrapper = new ScraperWrapper($request);
             if($scraperWrapper->isValid) {
-                $scrapedValue = $scraper->getScrapedValue($scraperWrapper);
+                $scrapedValue = $this->getScrapedValue($scraper, $scraperWrapper);
                 $response = $this->formatScrapedValue($scrapedValue);
             }
         }
 
         return $response;
+    }
+
+    private function getScrapedValue(Scraper $scraper, ScraperWrapper $scraperWrapper): string {
+        $value = @$scraper->getScrapedValue($scraperWrapper);
+        return (!is_string($value)? '': $value);
     }
 
 
