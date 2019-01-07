@@ -14,5 +14,6 @@ class UFScraperServiceProvider extends ServiceProvider {
 
     public function register() {
         $this->app->register('Larangular\Support\SupportServiceProvider');
+        $this->mergeConfigFrom(__DIR__ . '/../config/uf-scraper.php', 'uf-scraper');
     }
 }
