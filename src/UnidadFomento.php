@@ -1,13 +1,7 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: simon
- * Date: 2019-01-02
- */
-
-
 namespace Larangular\UFScraper;
 
+use GuzzleHttp\Exception\RequestException;
 use Larangular\Support\Instance;
 use GuzzleHttp\Client as GuzzleClient;
 
@@ -32,7 +26,6 @@ class UnidadFomento {
             $response = $this->callScraper($scraper, $date);
             if($response !== false) break;
         }
-
         return $response;
     }
 
@@ -41,11 +34,19 @@ class UnidadFomento {
         $scraper = new $scraperName;
 
         if (Instance::instanceOf($scraper, Scraper::class)) {
-            $request = $this->client->request('GET', $scraper->getScrapeUrl($date));
-            $scraperWrapper = new ScraperWrapper($request);
-            if($scraperWrapper->isValid) {
-                $scrapedValue = $this->getScrapedValue($scraper, $scraperWrapper);
-                $response = $this->formatScrapedValue($scrapedValue);
+            $request = null;
+            try {
+                $request = $this->client->request('GET', $scraper->getScrapeUrl($date));
+            } catch (RequestException $e) {
+                //dd($e);
+            } finally {
+                if(!is_null($request)) {
+                    $scraperWrapper = new ScraperWrapper($request);
+                    if($scraperWrapper->isValid) {
+                        $scrapedValue = $this->getScrapedValue($scraper, $scraperWrapper);
+                        $response = $this->formatScrapedValue($scrapedValue);
+                    }
+                }
             }
         }
 
