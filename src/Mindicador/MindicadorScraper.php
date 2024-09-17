@@ -18,7 +18,10 @@ class MindicadorScraper extends Scraper {
     }
 
     public function getScrapedValue(ScraperWrapper $wrapper): ?string {
-        $response = json_decode($wrapper->getTextContent());
-        return $response->serie[0]->valor;
+        try {
+            $response = json_decode($wrapper->getTextContent());
+            return $response->serie[0]->valor;
+        } catch (\Exception $e) {
+        }
     }
 }
