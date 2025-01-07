@@ -34,19 +34,19 @@ class UnidadFomento {
         $scraper = new $scraperName;
 
         if (Instance::instanceOf($scraper, Scraper::class)) {
-            $request = null;
             try {
+                // Attempt to execute the HTTP request
                 $request = $this->client->request('GET', $scraper->getScrapeUrl($date));
-            } catch (RequestException $e) {
-                //dd($e);
-            } finally {
-                if(!is_null($request)) {
-                    $scraperWrapper = new ScraperWrapper($request);
-                    if($scraperWrapper->isValid) {
-                        $scrapedValue = $this->getScrapedValue($scraper, $scraperWrapper);
-                        $response = $this->formatScrapedValue($scrapedValue);
-                    }
+
+                // Process the response only if the request was successful
+                $scraperWrapper = new ScraperWrapper($request);
+
+                if ($scraperWrapper->isValid) {
+                    $scrapedValue = $this->getScrapedValue($scraper, $scraperWrapper);
+                    $response = $this->formatScrapedValue($scrapedValue);
                 }
+            } catch (\Exception $e) {
+                // Ignore any exception and move on
             }
         }
 
